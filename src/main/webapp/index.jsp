@@ -2,6 +2,8 @@
 <%@ page import ="cl.praxis.desafio2.business.HabitacionBusiness" %>
 <%@ page import="cl.praxis.desafio2.model.Habitacion" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 
 <%
   HabitacionBusiness habitacionBusiness = new HabitacionBusiness();
@@ -11,125 +13,137 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Desafío 2</title>
-</head>
+<%@include file="assets/html/head.jsp" %>
+
 <body>
+<%@include file="assets/html/header.jsp" %>
+
 <form method="post" action="procesa.jsp">
 
   <!-- Section-->
   <section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-
+    <div class="container px-2 px-lg-3 mt-5">
       <div class="row justify-content-center">
-        <h1>
+        <h2>
           Habitaciones Disponibles (<%= habitacionBusiness.availableRooms()%>)
-        </h1>
+        </h2>
         <hr>
       </div>
 
 
-      <div
-              class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center g-2 g-md-3 g-xl-4">
 
         <%
           for(Habitacion habitacion : listaHabitaciones) {
         %>
 
         <div class="col mb-5">
-          <div class="card h-100">
-            <img class="card-img-top" style="width: 250px"
-                 src="<%= habitacion.getImage()%>"
-                 alt="<%= habitacion.getName()%>" />
-            <div class="card-body p-4">
-              <div class="text-center">
-                <h5 class="fw-bolder"></h5>
-                <p></p>
-                CL$ <%= habitacion.getPrize()%>
 
-              </div>
+          <div class="card h-100">
+            <div class="object-fit-cover">
+            <img class="card-img-top"
+                 src="<%= habitacion.getImage()%>"
+                 alt="<%= habitacion.getName()%>">
             </div>
-            <input type="radio" id="html" name="idevento"
-                   value="<%= habitacion.getId()%>" checked />  
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" >
-              <div class="text-center">
-                <!--<a class="btn btn-outline-dark mt-auto"
-                   href="detalle.jsp?idevento=">Ver
-                  Detalle Evento</a> -->
-              </div>
+            <div class="card-body p-4 text-center">
+
+                <h5 class="fw-bolder"><strong><%= habitacion.getName()%></strong></h5>
+                <p><%= habitacion.getDescription()%></p>
+                <p>CL$ <%= habitacion.getPrize()%></p>
+            </div>
+
+            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center" >
+
+                <input type="radio" id="html" name="select"
+                       value="<%= habitacion.getId()%>" checked />  
+
             </div>
           </div>
         </div>
         <%
           }
         %>
-
       </div>
+    </div>
     </div>
   </section>
 
-  <!--  Formulario
+  <!--  Formulario -->
   <section>
 
     <div class="container px-4 px-lg-5 mt-5">
 
-      <h1>Información de Venta</h1>
+      <h3>Información de Reserva Habitación</h3>
       <hr />
 
-      <div class="row g-3">
+      <div class="row g-2">
         <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">Nombre</label> <input
-                type="text" class="form-control" id="nombre" name="nombre"
-                value="Marcelo">
-        </div>
-        <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Apellido</label> <input
-                type="text" class="form-control" id="apellido" name="apellido"
-                value="Salas Melinao">
+          <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre">
         </div>
 
         <div class="col-md-6">
-          <label for="inputCity" class="form-label">Dirección</label>
-          <input
-                  type="text" class="form-control" id="direccion" name="direccion"
-                  value="Av. 15 Norte">
+          <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name="apellido">
+        </div>
+
+        <div class="col-md-6">
+          <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="email" name="email">
         </div>
 
         <div class="col-md-2">
-          <label for="inputZip" class="form-label">Número</label>
-          <input
-                  type="text" class="form-control" id="numero" name="numero"
-                  value="487">
+          <label for="medioPago" class="form-label">Medio de Pago</label>
+          <select id="medioPago" name="medioPago" class="form-select">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Débito">Débito</option>
+            <option value="Crédito">Crédito</option>
+          </select>
         </div>
 
-        <div class="col-md-4">
-          <label for="inputState" class="form-label">Cantidad de
-            Tickets</label> <select id="cantidad" name="cantidad" class="form-select">
+        <div class="col-md-2">
+          <label for="dias" class="form-label">Cantidad de Días</label>
+          <select id="dias" name="dias" class="form-select">
           <%
             for (int x = 0; x < 50; x++) {
           %>
-          <option value="<%=x + 1%>"><%=x + 1%> Ticket(s)
-          </option>
+            <option value="<%=x + 1%>"><%=x + 1%> días</option>
           <%
             }
           %>
-
         </select>
         </div>
+          <div class="col-md-2">
+            <label for="fechaEntrada" class="form-label">Fecha de entrada</label>
+            <select id="fechaEntrada" name="fechaEntrada" class="form-select">
+              <%
+                SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy");
+                Calendar calendar = Calendar.getInstance();
 
+                for (int x = 0; x < 50; x++) {
+                  String date = sdf.format(calendar.getTime());
+              %>
+              <option value="<%= date%>"><%=date%></option>
+              <%
+                  calendar.add(Calendar.DAY_OF_MONTH, 1); // Añade un día
+                }
+              %>
+            </select>
+          </div>
+
+
+      </div>
         <div class="col-12">
           <hr />
           <button type="submit" class="btn btn-primary">Enviar
-            Solicitud de Compra</button>
+            Solicitud de Reserva</button>
         </div>
       </div>
-
-    </div>
 
   </section>
 
   <br /> <br />
--->
 </form>
+<%@include file="assets/html/footer.jsp"%>
 </body>
 </html>

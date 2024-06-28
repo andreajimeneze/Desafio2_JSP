@@ -1,0 +1,38 @@
+
+p, label, select option, tr th, tr td {
+    font-size: 11px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+@media screen and (min-width: 768px){
+    p, label, select option, tr th, tr td {
+        font-size: 13px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (min-width: 992px){
+    p, label, select option, tr th, tr td {
+        font-size: 14px;
+    }
+
+    h2{
+        font-size: 22px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    p, label, select option, tr th, tr td {
+        font-size: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+}
